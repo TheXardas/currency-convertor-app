@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  # backend
+  app:
+    restart: on-failure
+    build: ./app
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: postgres://user1:pass@postgres:5432/db
+      NODE_ENV: development
+      PORT: 3001
+      HOST: 0.0.0.0
+    command: npm run dev
+
+  nginx:
+    depends_on:
+      - app
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+
+  client:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+
+  redis:
+    restart: unless-stopped
+    image: redis
+    ports:
+      - "6379:6379"
+
+  postgres:
+    restart: unless-stopped
+    image: postgres:15
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
