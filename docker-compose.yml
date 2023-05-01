@@ -26,14 +26,12 @@ services:
     ports:
       - "80:80"
 
+  # frontend
   client:
     stdin_open: true
     build:
       dockerfile: Dockerfile
       context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
 
   redis:
     restart: unless-stopped

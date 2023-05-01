@@ -14,7 +14,7 @@ exports.up = pgm => {
     pgm.createTable('users', {
         id: 'id',
         name: { type: 'varchar(1000)', notNull: true },
-        login: { type: 'varchar(1000)', notNull: true },
+        login: { type: 'varchar(1000)', notNull: true, unique: true },
         // We will use pgcrypto for storing passwords
         password: { type: 'varchar(1000)', notNull: true },
         createdAt: {
