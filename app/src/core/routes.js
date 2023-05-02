@@ -6,11 +6,11 @@ function attachRoutes(app) {
     app.use('/auth', authRouter);
     app.use('/currency', currencyRouter);
 
-    // FIXME add auth middleware
-
     // System routes
     app.get('*', function(req, res){
-        res.status(404).json({ code: 404, error: 'Unknown Route' });
+        if (!res.headersSent) {
+            res.status(404).json({ code: 404, error: 'Unknown Route' });
+        }
     });
     // TODO all 500s
     app.use(function (err, req, res, next) {

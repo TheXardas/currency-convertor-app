@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import CurrenciesPage from "./modules/currencies/pages/CurrenciesPage";
+import {AuthContextProvider} from "./modules/auth/context/AuthContext";
 
 const router = createHashRouter([
     {
@@ -22,14 +23,15 @@ const router = createHashRouter([
         path: "*",
         element: <NotFoundPage/>,
     },
-
 ]);
 
 function App() {
-  return (
-      <React.StrictMode>
-          <RouterProvider router={router} />
-      </React.StrictMode>
+    return (
+        <React.StrictMode>
+            <AuthContextProvider>
+                <RouterProvider router={router} />
+            </AuthContextProvider>
+        </React.StrictMode>
   );
 }
 

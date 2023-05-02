@@ -4,6 +4,6 @@ const authController = require('../controllers/authController');
 const authRouter = express.Router();
 
 authRouter.use("/login", authController.login);
-authRouter.use("/currentUser", authController.currentUser);
+authRouter.use("/current-user", authController.currentUser);
 
 module.exports = authRouter;
