@@ -33,6 +33,9 @@ UserModel.init({
 }, {
     sequelize,
     modelName: 'User',
+    indexes: [
+        { fields: ['login'] }
+    ]
 });
 
 UserModel.beforeCreate(async (user, options) => {

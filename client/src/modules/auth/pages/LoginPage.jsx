@@ -1,12 +1,10 @@
 import EmptyLayout from "../../core/components/EmptyLayout";
 import {Grid} from "@mui/material";
 import LoginForm from "../components/LoginForm";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {useAuth} from "../context/AuthContext";
 
 export default function LoginPage() {
-    const navigate = useNavigate();
-
     const {isLoggedIn} = useAuth();
     if (isLoggedIn) {
         // TODO loader

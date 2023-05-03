@@ -4,13 +4,28 @@ services:
   # backend
   app:
     restart: on-failure
-    build: ./app
+    build:
+      dockerfile: Dockerfile
+      context: ./app
     depends_on:
       - postgres
       - redis
     environment:
       DATABASE_URL: postgres://user1:pass@postgres:5432/db
-      NODE_ENV: development
+      PORT: 3001
+      HOST: 0.0.0.0
+
+  queue:
+    restart: on-failure
+    build:
+      dockerfile: ./queue.Dockerfile
+      context: ./app
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: postgres://user1:pass@postgres:5432/db
+      QUEUE_STORAGE_URL: redis://redis:6379
       PORT: 3001
       HOST: 0.0.0.0
 

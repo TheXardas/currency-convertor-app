@@ -1,4 +1,5 @@
 'use strict'
+const dotenv = require('dotenv').config()
 const express = require('express')
 const { Client } = require('pg')
 const cors = require('cors');

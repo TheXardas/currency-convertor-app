@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Box, Button, Card, FormControl, TextField} from "@mui/material";
+import {Box, Button, Card, TextField} from "@mui/material";
 import authService from "../services/authService";
 import {Error} from "@mui/icons-material";
 
@@ -29,7 +29,8 @@ export default function LoginForm() {
 
         if (login && password) {
             try {
-                const result = await authService.login(login, password);
+                await authService.login(login, password);
+                // Redirect will be done automatically in LoginPage
             } catch (e) {
                 const error = e.message;
                 if ((e.response.status === 400 || e.response.status === 404) && error) {
