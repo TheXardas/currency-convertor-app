@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {format, subYears} = require('date-fns');
+const {format, subYears, subDays} = require('date-fns');
 const {LATEST_URL, HISTORY_URL, CURRENCIES_URL, API_DATE_FORMAT, API_KEY} = require("../constants/freeCurrencyApi");
 
 async function fetchApi(url, params) {
@@ -17,17 +17,19 @@ exports.fetchCurrencies = async function() {
     return Object.values(res.data);
 }
 
-exports.fetchLatest = function() {
-    return fetchApi(LATEST_URL, {
-        base_currency: 'USD',
+exports.fetchLatest = async function(baseCurrencyCode) {
+    const res = await fetchApi(LATEST_URL, {
+        base_currency: baseCurrencyCode,
     })
+    return res.data
 }
 
-exports.fetchLastYear = function() {
+exports.fetchLastYear = async function(baseCurrencyCode) {
     const now = new Date();
-    return fetchApi(HISTORY_URL, {
-        date_from: format(now, API_DATE_FORMAT),
-        date_to: format(subYears(now, 1), API_DATE_FORMAT),
-        base_currency: 'USD',
+    const res = await fetchApi(HISTORY_URL, {
+        date_from: format(subYears(now, 1), API_DATE_FORMAT),
+        date_to: format(subDays(now, 1), API_DATE_FORMAT),
+        base_currency: baseCurrencyCode,
     })
+    return res.data;
 }

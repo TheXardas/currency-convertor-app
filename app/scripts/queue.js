@@ -6,15 +6,25 @@ const queue = new Queue('jobs', process.env.QUEUE_STORAGE_URL);
 
 const JOBS = {
     LOAD_CURRENCIES: 'LOAD_CURRENCIES',
+    LOAD_LATEST: 'LOAD_LATEST',
+    LOAD_HISTORY: 'LOAD_HISTORY',
 }
 
 const JOBS_SCHEDULE = {
     [JOBS.LOAD_CURRENCIES]: 24 * 60 * 60 * 1000, // day
+    [JOBS.LOAD_LATEST]: 60 * 60 * 1000, // hour
+    [JOBS.LOAD_HISTORY]: 24 * 60 * 60 * 1000, // day
 };
 
 (async() => {
     queue.process(JOBS.LOAD_CURRENCIES, async (job) => {
         return await freeCurrencyApiController.loadCurrencies();
+    })
+    queue.process(JOBS.LOAD_LATEST, async (job) => {
+        return await freeCurrencyApiController.loadLatest();
+    })
+    queue.process(JOBS.LOAD_HISTORY, async (job) => {
+        return await freeCurrencyApiController.loadLastYear();
     })
 
     queue.on('completed', (job) => {
@@ -49,6 +59,9 @@ const JOBS_SCHEDULE = {
             }
         })
         console.log(`Job ${jobName} initialized`);
+
+        // Run it first time immediately after initialization
+        await queue.add(jobName, '');
     }
 
     console.log('Job Queue Started. Queue stored in: ' + process.env.QUEUE_STORAGE_URL);

@@ -1,8 +1,43 @@
 const bcrypt = require('bcrypt');
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../../core/db');
+const {BASE_CURRENCY_CODE} = require("../constants/currency");
 
-class CurrencyModel extends Model {}
+class CurrencyModel extends Model {
+
+
+    static getLatest() {
+
+    }
+
+    static getHistory(timeframe) {
+
+    }
+
+    static async findAllByCurrencyCodes(codes) {
+        const currencies = await CurrencyModel.findAll({ where: { code: codes }});
+        console.log(currencies);
+        return currencies.reduce((result, currency) => {
+            result[currency.code] = currency
+            return result;
+        }, {})
+    }
+
+    static saveCurrencies(currencies) {
+        return CurrencyModel.bulkCreate(currencies, {
+            ignoreDuplicates: true,
+        });
+    }
+
+    static getBaseCurrency() {
+        return CurrencyModel.findOne({
+            where: {
+                code: BASE_CURRENCY_CODE,
+            }
+        })
+    }
+
+}
 
 CurrencyModel.init({
     symbol: {

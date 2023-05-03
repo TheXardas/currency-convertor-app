@@ -1,0 +1,1 @@
+exports.BASE_CURRENCY_CODE = 'USD';
