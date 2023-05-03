@@ -1,10 +1,34 @@
 const bcrypt = require('bcrypt');
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Op, QueryTypes} = require('sequelize');
 const sequelize = require('../../../core/db');
 const CurrencyModel = require("./CurrencyModel");
 require('./relations');
+const historySql = require('../sql/history.js');
+const {RATES_HISTORY_TIMEFRAMES, TIMEFRAME_TO_DAY_INTERVAL_MAP} = require("../constants/currency");
+const {subMonths} = require("date-fns");
 
 class CurrencyRateModel extends Model {
+
+    static getLatest(baseCurrency, date = new Date()) {
+        return CurrencyRateModel.findAll({
+            where: {
+                base_currency_id: baseCurrency.id,
+                date,
+            },
+            include: ['BaseCurrency', 'TargetCurrency'],
+        })
+    }
+
+    static async getHistory(baseCurrency, timeframe, targetCurrency) {
+        return await sequelize.query(historySql, {
+                replacements: {
+                    number_of_days: TIMEFRAME_TO_DAY_INTERVAL_MAP[timeframe],
+                    target_currency_id: targetCurrency.id,
+                },
+                type: QueryTypes.SELECT
+            }
+        )
+    }
 
     static async prepareRates(rates, date, baseCurrency, currenciesByCode) {
         const newCurrencyRates = [];

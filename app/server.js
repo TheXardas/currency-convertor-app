@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config()
 const express = require('express')
 const { Client } = require('pg')
 const cors = require('cors');
+const bodyParser = require('body-parser')
 
 const attachRoutes = require('./src/core/routes');
 const authMiddleware = require('./src/modules/auth/middlewares/authMiddleware');
@@ -10,8 +11,8 @@ const authMiddleware = require('./src/modules/auth/middlewares/authMiddleware');
 const app = express();
 
 app.use(cors());
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(authMiddleware);
 app.set('etag', false)
 

@@ -5,18 +5,16 @@ const {BASE_CURRENCY_CODE} = require("../constants/currency");
 
 class CurrencyModel extends Model {
 
-
-    static getLatest() {
-
-    }
-
-    static getHistory(timeframe) {
-
+    static findOneCurrencyByCode(code) {
+        return CurrencyModel.findOne({
+            where: {
+                code: code,
+            }
+        })
     }
 
     static async findAllByCurrencyCodes(codes) {
         const currencies = await CurrencyModel.findAll({ where: { code: codes }});
-        console.log(currencies);
         return currencies.reduce((result, currency) => {
             result[currency.code] = currency
             return result;
@@ -30,11 +28,7 @@ class CurrencyModel extends Model {
     }
 
     static getBaseCurrency() {
-        return CurrencyModel.findOne({
-            where: {
-                code: BASE_CURRENCY_CODE,
-            }
-        })
+        return CurrencyModel.findOneCurrencyByCode(BASE_CURRENCY_CODE);
     }
 
 }
