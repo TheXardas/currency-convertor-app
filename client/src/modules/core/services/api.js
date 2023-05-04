@@ -1,14 +1,13 @@
 import ky from 'ky';
 
 class ApiFetcher {
-    prefixUrl = process.env.REACT_APP_API_PREFIX || '/api';
     fetcher = null;
     token = '';
 
     constructor() {
         this.fetcher = ky.create({
             retry: 0,
-            prefixUrl: this.prefixUrl,
+            prefixUrl: process.env.REACT_APP_API_PREFIX || '/api',
             hooks: {
                 beforeError: [
                     async error => {
@@ -51,18 +50,11 @@ class ApiFetcher {
     }
 
     makeRequest = async (url, options) => {
-        //try {
-            const response = await this.fetcher(url, options)
-            console.log(response);
-            if (!response.ok) {
-                //throw new Error(`Fetch error: ${response.statusText}`);
-            }
-            return await response.json();
-       /* } catch (e) {
-
-            const res = await e.response.json();
-            return res.error;
-        }*/
+        const response = await this.fetcher(url, options)
+        if (!response.ok) {
+            throw new Error(`Fetch error: ${response.statusText}`);
+        }
+        return await response.json();
     }
 }
 

@@ -12,7 +12,6 @@ function attachRoutes(app) {
             res.status(404).json({ code: 404, error: 'Unknown Route' });
         }
     });
-    // TODO all 500s
     app.use(function (err, req, res, next) {
         console.error(err.message, err.stack)
         res.status(500).json({ code: 500, error: 'Server Error' });

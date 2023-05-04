@@ -1,16 +1,45 @@
 import {Card, List, ListItem} from "@mui/material";
+import {
+    BASE_CURRENCY_CODE,
+    CURRENT_CURRENCIES_CODES,
+    MAX_LATEST_CURRENCIES_DISPLAYED
+} from "../../constants/currencies";
 
+export default function LatestCurrencies({ baseCurrencyCode, rates }) {
+    const codesToDisplay = CURRENT_CURRENCIES_CODES.filter(c => c !== baseCurrencyCode);
+    let baseRate;
+    if (baseCurrencyCode !== BASE_CURRENCY_CODE) {
+        baseRate = rates.find(r => r.from === BASE_CURRENCY_CODE && r.to === baseCurrencyCode);
+    }
 
-export default function LatestCurrencies() {
+    // TODO Get rates higher in tree
+    const finalRates = codesToDisplay
+        .map(c => {
+            if (!rates) return null;
+            if (BASE_CURRENCY_CODE === baseCurrencyCode) return rates.find(r => r.from === baseCurrencyCode && r.to === c)
+            const to = rates.find(r => r.from === BASE_CURRENCY_CODE && r.to === c);
+            return {
+                id: baseCurrencyCode + c,
+                to: c,
+                rate: Math.floor( (to.rate / baseRate.rate) * 1000000) / 1000000,
+            }
+        })
+        .filter((r) => !!r)
+        .slice(0, MAX_LATEST_CURRENCIES_DISPLAYED);
+
+    // TODO make it look beautiful
     return (
         <Card>
-            <List>
-                <ListItem>1</ListItem>
-                <ListItem>2</ListItem>
-                <ListItem>3</ListItem>
-                <ListItem>4</ListItem>
-                <ListItem>5</ListItem>
-            </List>
+            Source - {baseCurrencyCode}
+            {finalRates && (
+                <List>
+                    {finalRates.map(r => (
+                        <ListItem key={r.id}>
+                            {r.to} - {r.rate}
+                        </ListItem>
+                    ))}
+                </List>
+            )}
         </Card>
     );
 }

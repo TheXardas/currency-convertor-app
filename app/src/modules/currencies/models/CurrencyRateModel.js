@@ -9,8 +9,25 @@ const {subMonths} = require("date-fns");
 
 class CurrencyRateModel extends Model {
 
-    static getLatest(baseCurrency, date = new Date()) {
-        return CurrencyRateModel.findAll({
+    toJSON() {
+        let values = Object.assign({}, this.get());
+
+        values.from = values.BaseCurrency.code;
+        values.to = values.TargetCurrency.code;
+        values.id = values.from + values.to;
+
+        delete values.TargetCurrency;
+        delete values.BaseCurrency;
+        delete values.createdAt;
+        delete values.updatedAt;
+        delete values.base_currency_id;
+        delete values.target_currency_id;
+
+        return values;
+    }
+
+    static async getLatest(baseCurrency, date = new Date()) {
+        return await CurrencyRateModel.findAll({
             where: {
                 base_currency_id: baseCurrency.id,
                 date,
@@ -19,7 +36,7 @@ class CurrencyRateModel extends Model {
         })
     }
 
-    static async getHistory(baseCurrency, timeframe, targetCurrency) {
+    static async getHistory(timeframe, targetCurrency) {
         return await sequelize.query(historySql, {
                 replacements: {
                     number_of_days: TIMEFRAME_TO_DAY_INTERVAL_MAP[timeframe],

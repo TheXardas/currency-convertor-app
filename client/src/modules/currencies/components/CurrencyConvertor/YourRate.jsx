@@ -1,8 +1,11 @@
 
-export default function YourRate() {
+export default function YourRate({ from, to, rate, lastUpdated }) {
+    if (!rate) return null;
     return (
         <div>
-            Your rate FIXME
+            Your rate:
+            {from} 1 = {to} {rate}
+            Last updated {lastUpdated}
         </div>
     );
 }
