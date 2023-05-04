@@ -1,9 +1,10 @@
-import {Box, Card, Tab, Tabs} from "@mui/material";
+import {Box, Card, CardHeader, Divider, Tab, Tabs} from "@mui/material";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import currencyService from "../../services/currencyService";
 import {HISTORY_TIMEFRAMES} from "../../constants/currencies";
 import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip} from 'recharts';
 import {format} from 'date-fns';
+import StyledCardHeader from "../../../core/components/StyledCardHeader";
 
 export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }) {
     const [historyData, setHistoryData] = useState(null);
@@ -27,7 +28,8 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
 
     return (
         <Card>
-            History
+            <StyledCardHeader title="Rates History" subheader={`${baseCurrencyCode} - ${targetCurrencyCode}`}/>
+
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={timeframe} onChange={handleChange} aria-label="basic tabs example">
                     <Tab value={HISTORY_TIMEFRAMES.MONTH} label="Last month" />
@@ -36,10 +38,6 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
                     <Tab value={HISTORY_TIMEFRAMES.TWELVE_MONTHS} label="Last 12 months" />
                 </Tabs>
             </Box>
-
-            <h4 style={{ margin: '0 auto'}}>
-                {baseCurrencyCode} vs {targetCurrencyCode}
-            </h4>
 
             <LineChart
                 width={1100}

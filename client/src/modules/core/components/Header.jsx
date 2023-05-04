@@ -11,7 +11,7 @@ export default function Header(props) {
             <header>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Currencies Rates
+                        Exchange
                     </Typography>
 
                     {user && (

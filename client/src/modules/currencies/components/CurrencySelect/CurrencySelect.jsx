@@ -1,6 +1,6 @@
 import {Autocomplete, TextField} from "@mui/material";
 
-export default function CurrencySelect({ label, value, onChange, options }) {
+export default function CurrencySelect({ label, value, onChange, options, ...rest }) {
     return (
         <Autocomplete
             value={value}
@@ -19,6 +19,7 @@ export default function CurrencySelect({ label, value, onChange, options }) {
                 />
             )}
             options={options}
+            {...rest}
         />
     )
 }

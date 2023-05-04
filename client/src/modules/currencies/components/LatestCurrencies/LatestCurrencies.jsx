@@ -4,6 +4,7 @@ import {
     CURRENT_CURRENCIES_CODES,
     MAX_LATEST_CURRENCIES_DISPLAYED
 } from "../../constants/currencies";
+import StyledCardHeader from "../../../core/components/StyledCardHeader";
 
 export default function LatestCurrencies({ baseCurrencyCode, rates }) {
     const codesToDisplay = CURRENT_CURRENCIES_CODES.filter(c => c !== baseCurrencyCode);
@@ -27,10 +28,9 @@ export default function LatestCurrencies({ baseCurrencyCode, rates }) {
         .filter((r) => !!r)
         .slice(0, MAX_LATEST_CURRENCIES_DISPLAYED);
 
-    // TODO make it look beautiful
     return (
-        <Card>
-            Source - {baseCurrencyCode}
+        <Card sx={{ height: '100%'}}>
+            <StyledCardHeader title="Today's rates" subheader={`${baseCurrencyCode} to`}/>
             {finalRates && (
                 <List>
                     {finalRates.map(r => (

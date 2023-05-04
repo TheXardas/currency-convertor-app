@@ -30,7 +30,7 @@ export default function CurrenciesPage() {
     // TODO load data
     return (
         <CurrenciesLayout>
-            <Grid container spacing={4}>
+            <Grid container spacing={4} sx={{mb: 5}}>
                 <Grid item xs={8}>
                     <CurrencyConvertor
                         baseCurrencyCode={baseCurrencyCode}

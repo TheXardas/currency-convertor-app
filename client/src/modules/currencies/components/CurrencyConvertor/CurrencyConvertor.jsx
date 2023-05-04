@@ -1,8 +1,9 @@
-import {Autocomplete, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Card, Divider, TextField} from "@mui/material";
 import YourRate from "./YourRate";
 import {useMemo, useState} from "react";
 import CurrencySelect from "../CurrencySelect/CurrencySelect";
 import {BASE_CURRENCY_CODE} from "../../constants/currencies";
+import StyledCardHeader from "../../../core/components/StyledCardHeader";
 
 export default function CurrencyConvertor({
     baseCurrencyCode,
@@ -38,51 +39,54 @@ export default function CurrencyConvertor({
 
     return (
         <Card sx={{ height: '100%' }}>
-            Currency Convertor
+            <StyledCardHeader title="Currency Convertor" subheader={`${baseCurrencyCode} - ${targetCurrencyCode}`}/>
 
-            <TextField
-                label="From"
-                onChange={e => setFromAmount(e.target.value)}
-                variant="outlined"
-                color="secondary"
-                type="text"
-                sx={{mb: 3}}
-                fullWidth
-                value={fromAmount}
-            />
 
-            <CurrencySelect
-                value={baseCurrencyCode}
-                onChange={(event, newValue) => {
-                    if (!newValue) return;
-                    setBaseCurrencyCode(newValue.code);
-                }}
-                options={options}
-                label="Source"
-            />
+            <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
+                <TextField
+                    sx={{ flexShrink: 1 }}
+                    label="From"
+                    onChange={e => setFromAmount(e.target.value)}
+                    variant="outlined"
+                    color="secondary"
+                    type="text"
+                    value={fromAmount}
+                />
 
-            <TextField
-                label="To"
-                variant="outlined"
-                color="secondary"
-                type="text"
-                sx={{mb: 3}}
-                fullWidth
-                value={toAmountResult}
-            />
-            <CurrencySelect
-                value={targetCurrencyCode}
-                onChange={(event, newValue) => {
-                    if (!newValue) return;
-                    setTargetCurrencyCode(newValue.code);
-                }}
-                options={options}
-                label="Target"
-            />
+                <CurrencySelect
+                    sx={{ flexGrow: 1 }}
+                    value={baseCurrencyCode}
+                    onChange={(event, newValue) => {
+                        if (!newValue) return;
+                        setBaseCurrencyCode(newValue.code);
+                    }}
+                    options={options}
+                    label="Source"
+                />
+            </Box>
 
-            FROM {baseCurrencyCode}
-            TO {targetCurrencyCode}
+            <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
+                <TextField
+                    sx={{ flexShrink: 1 }}
+                    label="To"
+                    variant="outlined"
+                    color="secondary"
+                    type="text"
+                    value={toAmountResult}
+                />
+                <CurrencySelect
+                    sx={{ flexGrow: 1 }}
+                    value={targetCurrencyCode}
+                    onChange={(event, newValue) => {
+                        if (!newValue) return;
+                        setTargetCurrencyCode(newValue.code);
+                    }}
+                    options={options}
+                    label="Target"
+                />
+            </Box>
 
+            <Divider/>
             <YourRate from={baseCurrencyCode} to={targetCurrencyCode} rate={rate}/>
         </Card>
     );
