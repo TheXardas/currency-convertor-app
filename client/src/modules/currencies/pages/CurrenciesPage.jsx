@@ -1,6 +1,6 @@
 import CurrenciesLayout from "./CurrenciesLayout";
 import {Grid} from "@mui/material";
-import LatestCurrencies from "../components/LatestCurrencies/LatestCurrencies";
+import LatestRates from "../components/LatestCurrencies/LatestRates";
 import CurrencyConvertor from "../components/CurrencyConvertor/CurrencyConvertor";
 import CurrencyHistory from "../components/CurrencyHistory/CurrencyHistory";
 import {Navigate} from "react-router-dom";
@@ -12,7 +12,6 @@ export default function CurrenciesPage() {
     const {isLoggedIn} = useAuth();
     const [currencies, setCurrencies] = useState(null);
     const [latestRates, setLatestRates] = useState(null);
-    const [historyRates, setHistoryRates] = useState(null);
     const [baseCurrencyCode, setBaseCurrencyCode] = useState('USD');
     const [targetCurrencyCode, setTargetCurrencyCode] = useState('EUR');
 
@@ -43,7 +42,7 @@ export default function CurrenciesPage() {
                     />
                 </Grid>
                 <Grid item xs={4}>
-                    <LatestCurrencies
+                    <LatestRates
                         currencies={currencies}
                         baseCurrencyCode={baseCurrencyCode}
                         rates={latestRates}

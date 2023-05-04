@@ -14,13 +14,9 @@ export default function Header(props) {
                         Exchange
                     </Typography>
 
-                    {user && (
-                        <>
-                            <UserName name={user.name}/>
+                    <UserName user={user}/>
 
-                            <LogoutButton/>
-                        </>
-                    )}
+                    <LogoutButton user={user}/>
                 </Toolbar>
             </header>
         </AppBar>

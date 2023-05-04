@@ -1,10 +1,12 @@
-import {Box, Card, Divider, TextField} from "@mui/material";
+import {Box, Card, Divider} from "@mui/material";
 import YourRate from "./YourRate";
-import {useMemo, useState} from "react";
-import CurrencySelect from "../CurrencySelect/CurrencySelect";
-import {BASE_CURRENCY_CODE} from "../../constants/currencies";
+import {useState} from "react";
+import CurrencySelect from "./CurrencySelect";
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
 import {roundAmount} from "../../helpers/roundAmount";
+import Amount from "./Amount";
+import useOptions from "../../hooks/useOptions";
+import findRate from "../../helpers/findRate";
 
 export default function CurrencyConvertor({
     currencies,
@@ -15,83 +17,40 @@ export default function CurrencyConvertor({
     rates
 }) {
     const [fromAmount, setFromAmount] = useState(1000);
-    const [toAmount, setToAmount] = useState('');
+    const [toAmount, setToAmount] = useState(0);
+    const options = useOptions(rates, currencies);
+    const isLoaded = options.length > 0;
 
-    const options = useMemo(() => {
-        if (!rates) return [];
-        return rates.filter(r => r.from === BASE_CURRENCY_CODE).map(r => {
-            const currency = currencies.find(c => c.code === r.to)
-            return {
-                id: r.to,
-                code: r.to,
-                label: r.to,
-                name: currency.name,
-                symbol: currency.symbol,
-            }
-        });
-    }, [rates])
+    const rate = findRate(rates, baseCurrencyCode, targetCurrencyCode);
 
-    let rate;
-    if (rates) {
-        if (baseCurrencyCode === BASE_CURRENCY_CODE) rate = rates.find(r => r.from === baseCurrencyCode && r.to === targetCurrencyCode).rate;
-        if (baseCurrencyCode !== BASE_CURRENCY_CODE) {
-            const from = rates.find(r => r.from === BASE_CURRENCY_CODE && r.to === baseCurrencyCode);
-            const to = rates.find(r => r.from === BASE_CURRENCY_CODE && r.to === targetCurrencyCode);
-            rate = Math.floor((to.rate / from.rate) * 1000000) / 1000000;
-        }
-    }
-
-    const toAmountResult = Math.floor( fromAmount * rate * 100 ) / 100;
+    const toAmountResult = fromAmount * rate;
 
     return (
         <Card sx={{ height: '100%' }}>
             <StyledCardHeader title="Currency Convertor" subheader={`${baseCurrencyCode} → ${targetCurrencyCode}`}/>
 
             <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
-                <TextField
-                    sx={{ flexShrink: 1 }}
-                    label="From"
-                    onChange={e => setFromAmount(e.target.value)}
-                    variant="outlined"
-                    color="secondary"
-                    type="text"
-                    value={fromAmount}
-                />
+                <Amount label="From" value={fromAmount} onChange={setFromAmount} isLoaded={isLoaded}/>
 
                 <CurrencySelect
-                    sx={{ flexGrow: 1 }}
                     value={baseCurrencyCode}
-                    onChange={(event, newValue) => {
-                        if (!newValue) return;
-                        setBaseCurrencyCode(newValue.code);
-                    }}
+                    onChange={setBaseCurrencyCode}
                     options={options}
-                    disableClearable
                 />
             </Box>
 
             <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
-                <TextField
-                    sx={{ flexShrink: 1 }}
-                    label="To"
-                    variant="outlined"
-                    color="secondary"
-                    type="text"
-                    value={roundAmount(toAmountResult)}
-                />
+                <Amount label="To" value={roundAmount(toAmountResult)} onChange={setToAmount} isLoaded={isLoaded}/>
+
                 <CurrencySelect
-                    sx={{ flexGrow: 1 }}
                     value={targetCurrencyCode}
-                    onChange={(event, newValue) => {
-                        if (!newValue) return;
-                        setTargetCurrencyCode(newValue.code);
-                    }}
+                    onChange={setTargetCurrencyCode}
                     options={options}
-                    disableClearable
                 />
             </Box>
 
             <Divider/>
+
             <YourRate from={baseCurrencyCode} to={targetCurrencyCode} rate={rate}/>
         </Card>
     );

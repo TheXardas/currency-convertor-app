@@ -1,47 +1,16 @@
-import React, {useCallback, useState} from 'react';
-import {Box, Button, Card, TextField} from "@mui/material";
-import authService from "../services/authService";
-import {Error} from "@mui/icons-material";
-
+import React from 'react';
+import {Box, Card} from "@mui/material";
+import LoginFormInput from "./LoginFormInput";
+import FormError from "./FormError";
+import LoginButton from "./LoginButton";
+import useLoginForm from "../hooks/useLoginForm";
 
 export default function LoginForm() {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('')
-    const [loginError, setLoginError] = useState(false)
-    const [passwordError, setPasswordError] = useState(false)
-    const [formError, setFormError] = useState('');
-
-    const handleSubmit = useCallback(async (e) => {
-        e.preventDefault()
-
-        setLoginError(false)
-        setPasswordError(false)
-        setFormError('');
-
-        if (login === '') {
-            setLoginError(true)
-            setFormError('Login is required');
-        }
-        if (password === '') {
-            setPasswordError(true)
-            setFormError('Password is required');
-        }
-
-        if (login && password) {
-            try {
-                await authService.login(login, password);
-                // Redirect will be done automatically in LoginPage
-            } catch (e) {
-                const error = e.message;
-                if ((e.response.status === 400 || e.response.status === 404) && error) {
-                    setPasswordError(true);
-                    setFormError(error);
-                } else {
-                    setFormError('Server error');
-                }
-            }
-        }
-    }, [login, password, setLoginError, setPasswordError]);
+    const {
+        handleSubmit, setLogin, login, loginError,
+        isLoading, setPassword, password, passwordError,
+        passwordRef, formError
+    } = useLoginForm();
 
     return (
         <Card sx={{ px: 10, pb: 5 }}>
@@ -49,40 +18,28 @@ export default function LoginForm() {
                 <Box sx={{ flexDirection: 'column', display: 'flex', alignItems: 'center', gap: 1 }}>
                     <h2>Welcome back!</h2>
 
-                    <TextField
+                    <LoginFormInput
                         label="Login"
-                        onChange={e => setLogin(e.target.value)}
-                        variant="outlined"
-                        color="secondary"
-                        type="text"
-                        sx={{mb: 3}}
-                        fullWidth
+                        onChange={setLogin}
                         value={login}
                         error={loginError}
+                        disabled={isLoading}
+                        autoFocus
                     />
-                    <TextField
+                    <LoginFormInput
                         label="Password"
-                        onChange={e => setPassword(e.target.value)}
-                        variant="outlined"
-                        color="secondary"
-                        type="password"
+                        onChange={setPassword}
                         value={password}
                         error={passwordError}
-                        fullWidth
-                        sx={{mb: 3}}
+                        disabled={isLoading}
+                        ref={passwordRef}
+                        type="password"
                     />
-                    <Button variant="outlined" color="secondary" type="submit">
-                        Login
-                    </Button>
 
-                    <Box color="error" sx={{ height: '20px', display: 'flex', alignItems: 'center', gap: 1 }}>
-                        {!!formError && (
-                            <><Error color="error"/> {formError}</>
-                        )}
-                    </Box>
+                    <LoginButton disabled={isLoading}>Login</LoginButton>
 
+                    <FormError error={formError}/>
                 </Box>
-
             </form>
         </Card>
     )

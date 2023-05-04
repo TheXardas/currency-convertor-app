@@ -1,11 +1,10 @@
-import {Box, Card, CardHeader, Divider, Tab, Tabs} from "@mui/material";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {Box, Card, Tab, Tabs} from "@mui/material";
+import {useCallback, useEffect, useState} from "react";
 import currencyService from "../../services/currencyService";
 import {HISTORY_TIMEFRAMES} from "../../constants/currencies";
 import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip} from 'recharts';
-import {format} from 'date-fns';
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
-import roundRate from "../../helpers/roundRate";
+import useChartData from "../../hooks/useChartData";
 
 export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }) {
     const [historyData, setHistoryData] = useState(null);
@@ -15,13 +14,7 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
         currencyService.history(timeframe, baseCurrencyCode, targetCurrencyCode).then(setHistoryData);
     }, [timeframe, baseCurrencyCode, targetCurrencyCode]);
 
-    const chartData = useMemo(() => {
-        if (!historyData) return [];
-        return Object.entries(historyData).map(([date, rate]) => ({
-            date: format(new Date(date), 'MMM d'),
-            rate: roundRate(rate)
-        })).reverse()
-    }, [historyData]);
+    const chartData = useChartData(historyData);
 
     const handleChange = useCallback((event, value) => {
         setTimeframe(value);
@@ -52,7 +45,6 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
                 <YAxis domain={['auto', 'auto']} interval={0} />
                 <Tooltip />
             </LineChart>
-
         </Card>
     );
 }
