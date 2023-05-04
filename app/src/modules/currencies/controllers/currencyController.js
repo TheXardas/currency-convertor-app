@@ -3,6 +3,11 @@ const CurrencyModel = require('../models/CurrencyModel');
 const {RATES_HISTORY_TIMEFRAMES} = require("../constants/currency");
 const asyncHandler = require('express-async-handler')
 
+exports.currencies = asyncHandler(async function(request, response) {
+    const result = await CurrencyModel.findAll();
+    response.json(result);
+})
+
 exports.currentRates = asyncHandler(async function(request, response) {
     const baseCurrency = await CurrencyModel.getBaseCurrency();
     const latest = await CurrencyRateModel.getLatest(baseCurrency, new Date());

@@ -5,6 +5,7 @@ import {
     MAX_LATEST_CURRENCIES_DISPLAYED
 } from "../../constants/currencies";
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
+import roundRate from "../../helpers/roundRate";
 
 export default function LatestCurrencies({ baseCurrencyCode, rates }) {
     const codesToDisplay = CURRENT_CURRENCIES_CODES.filter(c => c !== baseCurrencyCode);
@@ -37,7 +38,7 @@ export default function LatestCurrencies({ baseCurrencyCode, rates }) {
                         <ListItem sx={{ p: 2 }} divider key={r.id}>
                             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
                                 <span>{r.to}</span>
-                                <span>{r.rate}</span>
+                                <span>{roundRate(r.rate)}</span>
                             </Box>
                         </ListItem>
                     ))}

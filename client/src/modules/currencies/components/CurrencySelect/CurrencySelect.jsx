@@ -8,7 +8,7 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
             isOptionEqualToValue={(option, value) => option.code === value}
             renderOption={(props, option, { selected }) => (
                 <div key={option.id} {...props}>
-                    {option.label} {selected && 'SELECTED'}
+                    {option.label} {option.symbol} {option.name}
                 </div>
             )}
             renderInput={(params) => (

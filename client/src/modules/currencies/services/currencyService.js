@@ -2,6 +2,10 @@ import api from "../../core/services/api";
 
 class CurrencyService {
 
+    currencies() {
+        return api.get('currency/currencies');
+    }
+
     latest() {
         return api.get('currency/current-rates');
     }

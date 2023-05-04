@@ -17,6 +17,7 @@ export default function CurrenciesPage() {
     const [targetCurrencyCode, setTargetCurrencyCode] = useState('EUR');
 
     useEffect(() => {
+        currencyService.currencies().then(setCurrencies)
         currencyService.latest().then(setLatestRates)
     }, [baseCurrencyCode])
 
@@ -33,6 +34,7 @@ export default function CurrenciesPage() {
             <Grid container spacing={4} sx={{mb: 5}}>
                 <Grid item xs={8}>
                     <CurrencyConvertor
+                        currencies={currencies}
                         baseCurrencyCode={baseCurrencyCode}
                         targetCurrencyCode={targetCurrencyCode}
                         setBaseCurrencyCode={setBaseCurrencyCode}
@@ -42,6 +44,7 @@ export default function CurrenciesPage() {
                 </Grid>
                 <Grid item xs={4}>
                     <LatestCurrencies
+                        currencies={currencies}
                         baseCurrencyCode={baseCurrencyCode}
                         rates={latestRates}
                     />

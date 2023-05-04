@@ -5,6 +5,7 @@ import {HISTORY_TIMEFRAMES} from "../../constants/currencies";
 import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip} from 'recharts';
 import {format} from 'date-fns';
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
+import roundRate from "../../helpers/roundRate";
 
 export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }) {
     const [historyData, setHistoryData] = useState(null);
@@ -18,7 +19,7 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
         if (!historyData) return [];
         return Object.entries(historyData).map(([date, rate]) => ({
             date: format(new Date(date), 'MMM d'),
-            rate,
+            rate: roundRate(rate)
         })).reverse()
     }, [historyData]);
 

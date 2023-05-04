@@ -1,11 +1,13 @@
-import {Autocomplete, Box, Card, Divider, TextField} from "@mui/material";
+import {Box, Card, Divider, TextField} from "@mui/material";
 import YourRate from "./YourRate";
 import {useMemo, useState} from "react";
 import CurrencySelect from "../CurrencySelect/CurrencySelect";
 import {BASE_CURRENCY_CODE} from "../../constants/currencies";
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
+import {roundAmount} from "../../helpers/roundAmount";
 
 export default function CurrencyConvertor({
+    currencies,
     baseCurrencyCode,
     targetCurrencyCode,
     setBaseCurrencyCode,
@@ -17,11 +19,16 @@ export default function CurrencyConvertor({
 
     const options = useMemo(() => {
         if (!rates) return [];
-        return rates.filter(r => r.from === BASE_CURRENCY_CODE).map(r => ({
-            id: r.to,
-            code: r.to,
-            label: r.to,
-        }));
+        return rates.filter(r => r.from === BASE_CURRENCY_CODE).map(r => {
+            const currency = currencies.find(c => c.code === r.to)
+            return {
+                id: r.to,
+                code: r.to,
+                label: r.to,
+                name: currency.name,
+                symbol: currency.symbol,
+            }
+        });
     }, [rates])
 
     let rate;
@@ -32,7 +39,6 @@ export default function CurrencyConvertor({
             const to = rates.find(r => r.from === BASE_CURRENCY_CODE && r.to === targetCurrencyCode);
             rate = Math.floor((to.rate / from.rate) * 1000000) / 1000000;
         }
-        console.log(rate, baseCurrencyCode, rates.find(r => r.to === targetCurrencyCode))
     }
 
     const toAmountResult = Math.floor( fromAmount * rate * 100 ) / 100;
@@ -40,7 +46,6 @@ export default function CurrencyConvertor({
     return (
         <Card sx={{ height: '100%' }}>
             <StyledCardHeader title="Currency Convertor" subheader={`${baseCurrencyCode} → ${targetCurrencyCode}`}/>
-
 
             <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
                 <TextField
@@ -61,7 +66,7 @@ export default function CurrencyConvertor({
                         setBaseCurrencyCode(newValue.code);
                     }}
                     options={options}
-                    label="Source"
+                    disableClearable
                 />
             </Box>
 
@@ -72,7 +77,7 @@ export default function CurrencyConvertor({
                     variant="outlined"
                     color="secondary"
                     type="text"
-                    value={toAmountResult}
+                    value={roundAmount(toAmountResult)}
                 />
                 <CurrencySelect
                     sx={{ flexGrow: 1 }}
@@ -82,7 +87,7 @@ export default function CurrencyConvertor({
                         setTargetCurrencyCode(newValue.code);
                     }}
                     options={options}
-                    label="Target"
+                    disableClearable
                 />
             </Box>
 

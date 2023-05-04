@@ -5,6 +5,16 @@ const {BASE_CURRENCY_CODE} = require("../constants/currency");
 
 class CurrencyModel extends Model {
 
+    toJSON() {
+        let values = Object.assign({}, this.get());
+        delete values.createdAt;
+        delete values.updatedAt;
+        delete values.decimal_digits;
+        delete values.rounding;
+        delete values.symbol_native;
+        return values;
+    }
+
     static findOneCurrencyByCode(code) {
         return CurrencyModel.findOne({
             where: {

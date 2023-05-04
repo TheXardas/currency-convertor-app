@@ -1,7 +1,7 @@
-const User = require('../models/UserModel');
+const UserModel = require('../models/UserModel');
 
 exports.getUser = function(login) {
-    return User.findOne( {
+    return UserModel.findOne( {
         where: { login }
     })
 }

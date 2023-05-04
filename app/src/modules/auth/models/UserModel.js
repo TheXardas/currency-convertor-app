@@ -11,6 +11,8 @@ class UserModel extends Model {
         let values = Object.assign({}, this.get());
         // Hide password from api result
         delete values.password;
+        delete values.createdAt;
+        delete values.updatedAt;
         return values;
     }
 }
