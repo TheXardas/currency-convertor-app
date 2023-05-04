@@ -1,4 +1,4 @@
-import {Card, List, ListItem} from "@mui/material";
+import {Box, Card, List, ListItem} from "@mui/material";
 import {
     BASE_CURRENCY_CODE,
     CURRENT_CURRENCIES_CODES,
@@ -30,12 +30,15 @@ export default function LatestCurrencies({ baseCurrencyCode, rates }) {
 
     return (
         <Card sx={{ height: '100%'}}>
-            <StyledCardHeader title="Today's rates" subheader={`${baseCurrencyCode} to`}/>
+            <StyledCardHeader title="Today's rates" subheader={`${baseCurrencyCode} ↓`}/>
             {finalRates && (
                 <List>
                     {finalRates.map(r => (
-                        <ListItem key={r.id}>
-                            {r.to} - {r.rate}
+                        <ListItem sx={{ p: 2 }} divider key={r.id}>
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+                                <span>{r.to}</span>
+                                <span>{r.rate}</span>
+                            </Box>
                         </ListItem>
                     ))}
                 </List>

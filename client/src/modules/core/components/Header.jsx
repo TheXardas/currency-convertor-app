@@ -7,7 +7,7 @@ export default function Header(props) {
     const {user} = useAuth();
 
     return (
-        <AppBar position="static" {...props}>
+        <AppBar position="static" color="secondary" {...props}>
             <header>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

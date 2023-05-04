@@ -39,7 +39,7 @@ export default function CurrencyConvertor({
 
     return (
         <Card sx={{ height: '100%' }}>
-            <StyledCardHeader title="Currency Convertor" subheader={`${baseCurrencyCode} - ${targetCurrencyCode}`}/>
+            <StyledCardHeader title="Currency Convertor" subheader={`${baseCurrencyCode} → ${targetCurrencyCode}`}/>
 
 
             <Box sx={{ display: 'flex', gap: 3, p: 2 }}>

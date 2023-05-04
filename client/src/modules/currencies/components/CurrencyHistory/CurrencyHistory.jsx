@@ -28,7 +28,7 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
 
     return (
         <Card>
-            <StyledCardHeader title="Rates History" subheader={`${baseCurrencyCode} - ${targetCurrencyCode}`}/>
+            <StyledCardHeader title="Rates History" subheader={`${baseCurrencyCode} → ${targetCurrencyCode}`}/>
 
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={timeframe} onChange={handleChange} aria-label="basic tabs example">

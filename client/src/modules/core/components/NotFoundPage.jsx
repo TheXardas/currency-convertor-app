@@ -12,7 +12,7 @@ export default function NotFoundPage() {
 
     return (
         <EmptyLayout>
-            404 - Not Found
+            404 — Not Found
 
             <Link onClick={onHome}>Go Home</Link>
         </EmptyLayout>
