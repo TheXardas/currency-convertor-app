@@ -1,5 +1,6 @@
-import {Autocomplete, Skeleton, TextField} from "@mui/material";
+import {Autocomplete, Box, createFilterOptions, Skeleton, TextField} from "@mui/material";
 import {useCallback} from "react";
+import CurrencyFlag from "../CurrencyFlag";
 
 export default function CurrencySelect({ label, value, onChange, options, ...rest }) {
     const handleChange = useCallback((event, newValue) => {
@@ -10,9 +11,10 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
     const isOptionEqualToValue = useCallback((option, value) => option.code === value, []);
 
     const renderOption = useCallback((props, option, { selected }) => (
-        <div key={option.id} {...props}>
-            {option.label} {option.symbol} {option.name}
-        </div>
+        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between !important' }} key={option.id} {...props}>
+            <span>{option.label} {option.symbol} {option.name}</span>
+            <CurrencyFlag currencyCode={option.code} />
+        </Box>
     ), []);
 
     const renderInput = useCallback((params) => (
@@ -23,21 +25,29 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
         />
     ), [label])
 
+    const filterOptions = createFilterOptions({
+        matchFrom: 'any',
+        stringify: (option) => `${option.label} ${option.symbol} ${option.name}`,
+    });
+
     if (options.length < 1) {
         return <Skeleton sx={{ flexGrow: 1 }} variant="rounded" width='auto' height={56}/>
     }
 
     return (
-        <Autocomplete
-            sx={{ flexGrow: 1 }}
-            value={value}
-            onChange={handleChange}
-            isOptionEqualToValue={isOptionEqualToValue}
-            renderOption={renderOption}
-            renderInput={renderInput}
-            options={options}
-            disableClearable
-            {...rest}
-        />
+        <Box sx={{ position: 'relative', flexGrow: 1}}>
+            <Autocomplete
+                value={value}
+                onChange={handleChange}
+                isOptionEqualToValue={isOptionEqualToValue}
+                renderOption={renderOption}
+                renderInput={renderInput}
+                options={options}
+                disableClearable
+                filterOptions={filterOptions}
+                {...rest}
+            />
+            <CurrencyFlag sx={{ position: 'absolute', top: '15px', right: '40px' }} currencyCode={value} />
+        </Box>
     )
 }
