@@ -3,6 +3,7 @@ import {Grid} from "@mui/material";
 import LoginForm from "../components/LoginForm";
 import {Navigate} from "react-router-dom";
 import {useAuth} from "../context/AuthContext";
+import BackDrop from '../components/BackDrop';
 
 export default function LoginPage() {
     const {isLoggedIn} = useAuth();
@@ -12,6 +13,7 @@ export default function LoginPage() {
 
     return (
         <EmptyLayout>
+            <BackDrop/>
             <Grid
                 container
                 spacing={0}
