@@ -25,7 +25,7 @@ export default function useConvertor(rate) {
         const fixed = fixAmount(newAmount)
         setToAmount(fixed)
         setFromAmount(roundAmount(fixed / rate))
-    })
+    }, [rate, setFromAmount, setToAmount])
 
     const handleFromAmountChange = useCallback((newAmount) => {
         setFromAmount(newAmount)
@@ -33,7 +33,7 @@ export default function useConvertor(rate) {
         updateTimer = setTimeout(() => fixFromAmount(newAmount), 1000)
         if (isNaN(Number(newAmount)) || !newAmount) return;
         setToAmount(roundAmount(newAmount * rate))
-    }, [rate, fixFromAmount])
+    }, [rate, setToAmount, setFromAmount, fixFromAmount])
 
     const handleTargetAmountChange = useCallback((newAmount) => {
         setToAmount(newAmount)
@@ -41,7 +41,7 @@ export default function useConvertor(rate) {
         updateTimer = setTimeout(() => fixToAmount(newAmount), 1000)
         if (isNaN(Number(newAmount)) || !newAmount) return;
         setFromAmount(roundAmount(newAmount / rate))
-    }, [rate])
+    }, [rate, setToAmount, setFromAmount, fixToAmount])
     return {
         handleFromAmountChange,
         handleTargetAmountChange,

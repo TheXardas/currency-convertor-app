@@ -7,7 +7,6 @@ import {useAuth} from "../context/AuthContext";
 export default function LoginPage() {
     const {isLoggedIn} = useAuth();
     if (isLoggedIn) {
-        // TODO loader
         return <Navigate to={'/'}/>;
     }
 

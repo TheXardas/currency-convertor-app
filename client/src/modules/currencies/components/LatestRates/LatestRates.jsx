@@ -1,4 +1,4 @@
-import {Box, Card, List, Skeleton} from "@mui/material";
+import {Card, List, Skeleton} from "@mui/material";
 import {
     MAX_LATEST_CURRENCIES_DISPLAYED
 } from "../../constants/currencies";
@@ -6,7 +6,6 @@ import StyledCardHeader from "../../../core/components/StyledCardHeader";
 import roundRate from "../../helpers/roundRate";
 import LatestRateListItem from "./LatestRateListItem";
 import useLatestRates from "../../hooks/useLatestRates";
-import CurrencyFlag from "../CurrencyFlag";
 import CurrencyWithFlag from "../CurrencyWithFlag";
 
 export default function LatestRates({ baseCurrencyCode, rates }) {
