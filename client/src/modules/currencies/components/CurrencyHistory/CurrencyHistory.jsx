@@ -2,7 +2,7 @@ import {Box, Card, Tab, Tabs} from "@mui/material";
 import {useCallback, useEffect, useState} from "react";
 import currencyService from "../../services/currencyService";
 import {HISTORY_TIMEFRAMES} from "../../constants/currencies";
-import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip} from 'recharts';
+import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip, ResponsiveContainer} from 'recharts';
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
 import useChartData from "../../hooks/useChartData";
 
@@ -25,7 +25,13 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
             <StyledCardHeader title="Rates History" subheader={`${baseCurrencyCode} → ${targetCurrencyCode}`}/>
 
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={timeframe} onChange={handleChange} aria-label="basic tabs example">
+                <Tabs
+                    value={timeframe}
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    aria-label="basic tabs example"
+                >
                     <Tab value={HISTORY_TIMEFRAMES.MONTH} label="Last month" />
                     <Tab value={HISTORY_TIMEFRAMES.THREE_MONTHS} label="Last 3 months" />
                     <Tab value={HISTORY_TIMEFRAMES.SIX_MONTHS} label="Last 6 months" />
@@ -33,18 +39,20 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
                 </Tabs>
             </Box>
 
-            <LineChart
-                width={1100}
-                height={400}
-                data={chartData}
-                margin={{ top: 30, right: 30, bottom: 45, left: 10 }}
-            >
-                <Line type="monotone" dataKey="rate" stroke="#8884d8"  />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="date" angle={-35} textAnchor='end'/>
-                <YAxis domain={['auto', 'auto']} interval={0} />
-                <Tooltip />
-            </LineChart>
+            <ResponsiveContainer width="100%" height={400}>
+                <LineChart
+                    width={1100}
+                    height={400}
+                    data={chartData}
+                    margin={{ top: 20, right: 20, bottom: 15, left: -8 }}
+                >
+                    <Line type="monotone" dataKey="rate" stroke="#8884d8"  />
+                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                    <XAxis style={{ fontSize: 13 }} dataKey="date" angle={-35} textAnchor='end'/>
+                    <YAxis style={{ fontSize: 13 }}domain={['auto', 'auto']} interval={0} />
+                    <Tooltip />
+                </LineChart>
+            </ResponsiveContainer>
         </Card>
     );
 }

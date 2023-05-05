@@ -17,14 +17,14 @@ export default function LatestRates({ baseCurrencyCode, rates }) {
             <StyledCardHeader title="Today's rates" subheader={`${baseCurrencyCode} ↓`}/>
 
             <List>
-                {latestRates.length > 0 ? latestRates.map(r => (
-                    <LatestRateListItem key={r.id}>
+                {latestRates.length > 0 ? latestRates.map((r, i) => (
+                    <LatestRateListItem key={r.id} divider={i !== latestRates.length - 1}>
                         <CurrencyWithFlag currencyCode={r.to} />
                         <span>{roundRate(r.rate)}</span>
                     </LatestRateListItem>
                 )) : (
                     [...Array(MAX_LATEST_CURRENCIES_DISPLAYED)].map((_, i) => (
-                        <LatestRateListItem key={i}>
+                        <LatestRateListItem key={i} divider={i !== MAX_LATEST_CURRENCIES_DISPLAYED - 1}>
                             <CurrencyWithFlag currencyCode={null}/>
                             <Skeleton variant="text" width={65} height={19} />
                         </LatestRateListItem>

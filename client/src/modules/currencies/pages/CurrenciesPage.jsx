@@ -30,8 +30,8 @@ export default function CurrenciesPage() {
     // TODO load data
     return (
         <CurrenciesLayout>
-            <Grid container spacing={4} sx={{mb: 5}}>
-                <Grid item xs={8}>
+            <Grid container spacing={{ xs: 2, md: 4 }} sx={{mb: 5}}>
+                <Grid item xs={12} md={8}>
                     <CurrencyConvertor
                         currencies={currencies}
                         baseCurrencyCode={baseCurrencyCode}
@@ -41,14 +41,14 @@ export default function CurrenciesPage() {
                         rates={latestRates}
                     />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={4}>
                     <LatestRates
                         currencies={currencies}
                         baseCurrencyCode={baseCurrencyCode}
                         rates={latestRates}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={12}>
                     <CurrencyHistory baseCurrencyCode={baseCurrencyCode} targetCurrencyCode={targetCurrencyCode}/>
                 </Grid>
             </Grid>

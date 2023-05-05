@@ -13,7 +13,7 @@ export default function LoginForm() {
     } = useLoginForm();
 
     return (
-        <Card sx={{ px: 10, pb: 5 }}>
+        <Card sx={{ px: {xs: 3, md: 10}, pb: {xs: 3, md: 5} }}>
             <form onSubmit={handleSubmit}>
                 <Box sx={{ flexDirection: 'column', display: 'flex', alignItems: 'center', gap: 1 }}>
                     <h2>Welcome back!</h2>

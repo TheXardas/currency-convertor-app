@@ -1,6 +1,8 @@
 import {Autocomplete, Box, createFilterOptions, Skeleton, TextField} from "@mui/material";
 import {useCallback} from "react";
 import CurrencyFlag from "../CurrencyFlag";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function CurrencySelect({ label, value, onChange, options, ...rest }) {
     const handleChange = useCallback((event, newValue) => {
@@ -10,9 +12,11 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
 
     const isOptionEqualToValue = useCallback((option, value) => option.code === value, []);
 
+    const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+
     const renderOption = useCallback((props, option, { selected }) => (
         <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between !important' }} key={option.id} {...props}>
-            <span>{option.label} {option.symbol} {option.name}</span>
+            <span>{option.label} {desktop && (<span>{option.symbol} {option.name}</span>)}</span>
             <CurrencyFlag currencyCode={option.code} />
         </Box>
     ), []);
@@ -47,7 +51,10 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
                 filterOptions={filterOptions}
                 {...rest}
             />
-            <CurrencyFlag sx={{ position: 'absolute', top: '15px', right: '40px' }} currencyCode={value} />
+            <CurrencyFlag
+                sx={{ position: 'absolute', top: '15px', right: '40px', pointerEvents: 'none' }}
+                currencyCode={value}
+            />
         </Box>
     )
 }
