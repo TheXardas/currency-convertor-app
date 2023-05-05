@@ -40,7 +40,6 @@ class CurrencyModel extends Model {
     static getBaseCurrency() {
         return CurrencyModel.findOneCurrencyByCode(BASE_CURRENCY_CODE);
     }
-
 }
 
 CurrencyModel.init({

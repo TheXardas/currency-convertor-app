@@ -56,12 +56,14 @@ const JOBS_SCHEDULE = {
         await queue.add(jobName, '', {
             repeat: {
                 every: schedule,
-            }
+            },
+            delay: jobName === JOBS.LOAD_CURRENCIES ? 0 : 10000,
         })
         console.log(`Job ${jobName} initialized`);
 
         // Run it first time immediately after initialization
-        await queue.add(jobName, '');
+        // We need to force currencies first, because we have a dependency
+        await queue.add(jobName, '', { delay: jobName === JOBS.LOAD_CURRENCIES ? 0 : 10000 });
     }
 
     console.log('Job Queue Started. Queue stored in: ' + process.env.QUEUE_STORAGE_URL);

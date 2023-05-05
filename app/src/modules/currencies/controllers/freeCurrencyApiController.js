@@ -10,12 +10,14 @@ exports.loadCurrencies = async function() {
 
 exports.loadLatest = async function() {
     const baseCurrency = await CurrencyModel.getBaseCurrency();
+    if (!baseCurrency) return;
     const latest = await freeCurrencyApiService.fetchLatest(baseCurrency.code);
     await CurrencyRateModel.saveLatest(latest, baseCurrency);
 }
 
 exports.loadLastYear = async function() {
     const baseCurrency = await CurrencyModel.getBaseCurrency();
+    if (!baseCurrency) return;
     const history = await freeCurrencyApiService.fetchLastYear(baseCurrency.code);
     await CurrencyRateModel.saveHistory(history, baseCurrency);
 }

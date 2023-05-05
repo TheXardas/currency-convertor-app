@@ -15,7 +15,7 @@ import {BASE_CURRENCY_CODE} from "../constants/currencies";
  */
 export default function findRate(rates, baseCurrencyCode, targetCurrencyCode) {
     let rate;
-    if (rates) {
+    if (rates && rates.length > 0) {
         if (baseCurrencyCode === BASE_CURRENCY_CODE) rate = rates.find(r => r.from === baseCurrencyCode && r.to === targetCurrencyCode).rate;
         if (baseCurrencyCode !== BASE_CURRENCY_CODE) {
             const from = rates.find(r => r.from === BASE_CURRENCY_CODE && r.to === baseCurrencyCode);

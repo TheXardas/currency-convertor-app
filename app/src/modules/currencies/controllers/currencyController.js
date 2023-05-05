@@ -10,6 +10,7 @@ exports.currencies = asyncHandler(async function(request, response) {
 
 exports.currentRates = asyncHandler(async function(request, response) {
     const baseCurrency = await CurrencyModel.getBaseCurrency();
+    if (!baseCurrency) return [];
     const latest = await CurrencyRateModel.getLatest(baseCurrency, new Date());
 
     const preparedRates = latest.map((r) => r.toJSON());
@@ -42,6 +43,7 @@ exports.history = asyncHandler(async function(request, response, next) {
     if (!source) return response.status(400).json({ error: 'Source required. Please send currency code.' }).end();
 
     const baseCurrency = await CurrencyModel.getBaseCurrency();
+    if (!baseCurrency) return response.json({})
     const sourceCurrency = await CurrencyModel.findOneCurrencyByCode(source);
     const targetCurrency = await CurrencyModel.findOneCurrencyByCode(target);
     if (!sourceCurrency) return response.status(400).json({ error: 'Source required. Please send currency code.'}).end();

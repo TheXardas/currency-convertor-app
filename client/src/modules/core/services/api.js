@@ -1,4 +1,5 @@
 import ky from 'ky';
+import authService from "../../auth/services/authService";
 
 class ApiFetcher {
     fetcher = null;
@@ -15,6 +16,9 @@ class ApiFetcher {
                         const errorData = await error.response.json();
                         if (response.status === 400 && errorData) {
                             error.message = `${errorData.error}`;
+                        }
+                        if (response.status === 401) {
+                            authService.logout()
                         }
                         return error;
                     }

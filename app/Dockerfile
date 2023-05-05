@@ -1,8 +1,9 @@
-# TODO remove unnecessary files from image
-FROM node:16
+FROM node:16-alpine
 WORKDIR /app
-COPY ./package.json .
-#RUN npm cache clean --force
-RUN npm install
+COPY package.json .
+COPY package-lock.json .
+ENV NODE_ENV production
+RUN npm cache clean --force
+RUN npm ci
 COPY . .
 CMD [ "node", "server.js" ]

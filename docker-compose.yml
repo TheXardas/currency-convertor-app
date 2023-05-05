@@ -4,6 +4,7 @@ services:
   # backend
   app:
     restart: on-failure
+    command: sh -c "npm run migrate && node server.js"
     build:
       dockerfile: Dockerfile
       context: ./app
@@ -23,11 +24,14 @@ services:
     depends_on:
       - postgres
       - redis
+      - app
     environment:
       DATABASE_URL: postgres://user1:pass@postgres:5432/db
       QUEUE_STORAGE_URL: redis://redis:6379
       PORT: 3001
       HOST: 0.0.0.0
+    # wait for migrations to pass
+    command: sh -c "sleep 10 && node ./scripts/queue"
 
   nginx:
     depends_on:
