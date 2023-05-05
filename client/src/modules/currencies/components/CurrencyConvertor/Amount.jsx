@@ -15,7 +15,7 @@ export default function Amount({ label, value, onChange, isLoaded }) {
             onChange={handleChange}
             variant="outlined"
             color="secondary"
-            type="text"
+            type="number"
             value={value}
         />
     )

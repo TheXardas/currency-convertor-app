@@ -1,12 +1,12 @@
 import {Box, Card, Divider} from "@mui/material";
 import YourRate from "./YourRate";
-import {useState} from "react";
 import CurrencySelect from "./CurrencySelect";
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
-import {roundAmount} from "../../helpers/roundAmount";
 import Amount from "./Amount";
 import useOptions from "../../hooks/useOptions";
 import findRate from "../../helpers/findRate";
+import useConvertor from "../../hooks/useConvertor";
+
 
 export default function CurrencyConvertor({
     currencies,
@@ -16,21 +16,19 @@ export default function CurrencyConvertor({
     setTargetCurrencyCode,
     rates
 }) {
-    const [fromAmount, setFromAmount] = useState(1000);
-    const [toAmount, setToAmount] = useState(0);
-    const options = useOptions(rates, currencies);
-    const isLoaded = options.length > 0;
-
     const rate = findRate(rates, baseCurrencyCode, targetCurrencyCode);
 
-    const toAmountResult = fromAmount * rate;
+    const {handleFromAmountChange, handleTargetAmountChange, fromAmount, toAmount} = useConvertor(rate)
+
+    const options = useOptions(rates, currencies);
+    const isLoaded = options.length > 0;
 
     return (
         <Card sx={{ height: '100%' }}>
             <StyledCardHeader title="Currency Convertor" subheader={`${baseCurrencyCode} → ${targetCurrencyCode}`}/>
 
             <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
-                <Amount label="From" value={fromAmount} onChange={setFromAmount} isLoaded={isLoaded}/>
+                <Amount label="From" value={fromAmount} onChange={handleFromAmountChange} isLoaded={isLoaded}/>
 
                 <CurrencySelect
                     value={baseCurrencyCode}
@@ -40,7 +38,7 @@ export default function CurrencyConvertor({
             </Box>
 
             <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
-                <Amount label="To" value={roundAmount(toAmountResult)} onChange={setToAmount} isLoaded={isLoaded}/>
+                <Amount label="To" value={toAmount} onChange={handleTargetAmountChange} isLoaded={isLoaded}/>
 
                 <CurrencySelect
                     value={targetCurrencyCode}

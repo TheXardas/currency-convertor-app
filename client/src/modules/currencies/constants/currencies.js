@@ -1,6 +1,7 @@
 export const CURRENT_CURRENCIES_CODES = ['USD', 'EUR', 'GBP', 'CAD', 'MXN', 'JPY'];
 export const BASE_CURRENCY_CODE = 'USD';
 export const MAX_LATEST_CURRENCIES_DISPLAYED = 5;
+export const DEFAULT_AMOUNT = 1000.00;
 
 export const HISTORY_TIMEFRAMES = {
     MONTH: 'MONTH',
