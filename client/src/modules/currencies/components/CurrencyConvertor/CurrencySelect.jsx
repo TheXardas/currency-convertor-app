@@ -12,14 +12,15 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
 
     const isOptionEqualToValue = useCallback((option, value) => option.code === value, []);
 
-    const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+    const theme = useTheme();
+    const desktop = useMediaQuery(theme.breakpoints.up('md'), {noSsr: true});
 
     const renderOption = useCallback((props, option, { selected }) => (
         <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between !important' }} key={option.id} {...props}>
             <span>{option.label} {desktop && (<span>{option.symbol} {option.name}</span>)}</span>
             <CurrencyFlag currencyCode={option.code} />
         </Box>
-    ), []);
+    ), [desktop]);
 
     const renderInput = useCallback((params) => (
         <TextField
