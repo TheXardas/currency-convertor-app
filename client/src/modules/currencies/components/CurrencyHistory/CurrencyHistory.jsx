@@ -5,6 +5,8 @@ import {HISTORY_TIMEFRAMES} from "../../constants/currencies";
 import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip, ResponsiveContainer} from 'recharts';
 import StyledCardHeader from "../../../core/components/StyledCardHeader";
 import useChartData from "../../hooks/useChartData";
+import {useTheme} from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }) {
     const [historyData, setHistoryData] = useState(null);
@@ -19,6 +21,9 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
     const handleChange = useCallback((event, value) => {
         setTimeframe(value);
     }, [setTimeframe])
+
+    const theme = useTheme();
+    const desktop = useMediaQuery(theme.breakpoints.up('md'), {noSsr: true})
 
     return (
         <Card>
@@ -39,10 +44,10 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
                 </Tabs>
             </Box>
 
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={desktop ? 400 : 250}>
                 <LineChart
                     width={1100}
-                    height={400}
+                    height={desktop ? 400 : 250}
                     data={chartData}
                     margin={{ top: 20, right: 20, bottom: 15, left: -8 }}
                 >
