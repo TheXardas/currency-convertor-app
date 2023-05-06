@@ -57,6 +57,9 @@ user\
 ### What is yet to be done (TODO)
 - write lots of tests!
 - production deploy with kubernetes
+- add WS (or long-polling?) to update rates online. No need now,
+since FreeCurrencyApi updates rates rarely
+- use better service for external currencies (faster updates, better api, more currencies)
 - linting
 - use TypeScript instead
 - better error handling (network errors, offline app usage, toasts)
