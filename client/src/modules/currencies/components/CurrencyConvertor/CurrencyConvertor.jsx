@@ -6,6 +6,7 @@ import Amount from "./Amount";
 import useOptions from "../../hooks/useOptions";
 import findRate from "../../helpers/findRate";
 import useConvertor from "../../hooks/useConvertor";
+import {useEffect} from "react";
 
 
 export default function CurrencyConvertor({
@@ -19,6 +20,8 @@ export default function CurrencyConvertor({
     const rate = findRate(rates, baseCurrencyCode, targetCurrencyCode);
 
     const {handleFromAmountChange, handleTargetAmountChange, fromAmount, toAmount} = useConvertor(rate)
+
+    useEffect(() => handleFromAmountChange(fromAmount), [baseCurrencyCode, targetCurrencyCode, handleFromAmountChange, fromAmount])
 
     const options = useOptions(rates, currencies);
     const isLoaded = options.length > 0;

@@ -3,6 +3,8 @@ import {DEFAULT_AMOUNT} from "../constants/currencies";
 import fixAmount from "../helpers/fixAmount";
 import {roundAmount} from "../helpers/roundAmount";
 
+const FIX_AMOUNT_TIMEOUT = 2000;
+
 let updateTimer;
 
 /**
@@ -30,7 +32,7 @@ export default function useConvertor(rate) {
     const handleFromAmountChange = useCallback((newAmount) => {
         setFromAmount(newAmount)
         clearTimeout(updateTimer)
-        updateTimer = setTimeout(() => fixFromAmount(newAmount), 1000)
+        updateTimer = setTimeout(() => fixFromAmount(newAmount), FIX_AMOUNT_TIMEOUT)
         if (isNaN(Number(newAmount)) || !newAmount) return;
         setToAmount(roundAmount(newAmount * rate))
     }, [rate, setToAmount, setFromAmount, fixFromAmount])
@@ -38,7 +40,7 @@ export default function useConvertor(rate) {
     const handleTargetAmountChange = useCallback((newAmount) => {
         setToAmount(newAmount)
         clearTimeout(updateTimer)
-        updateTimer = setTimeout(() => fixToAmount(newAmount), 1000)
+        updateTimer = setTimeout(() => fixToAmount(newAmount), FIX_AMOUNT_TIMEOUT)
         if (isNaN(Number(newAmount)) || !newAmount) return;
         setFromAmount(roundAmount(newAmount / rate))
     }, [rate, setToAmount, setFromAmount, fixToAmount])
