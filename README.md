@@ -32,7 +32,7 @@ Data is fetched periodically with **job queue** schedule.
 Free external API has **strict limit for requests**, that's why we have to **cache**
 all data in our db.
 
-Task was completed in 8 days.
+Task was completed in 8 days. Process of task completion can be seen from commit history.
 
 ## Demo
 Demo is available [here](http://45.8.248.99).
