@@ -21,7 +21,7 @@ export default function CurrencyConvertor({
 
     const {handleFromAmountChange, handleTargetAmountChange, fromAmount, toAmount} = useConvertor(rate);
 
-    useEffect(() => handleFromAmountChange(fromAmount), [baseCurrencyCode, targetCurrencyCode]);
+    useEffect(() => handleFromAmountChange(fromAmount), [rate]);
 
     const options = useOptions(rates, currencies);
     const isLoaded = options.length > 0;
