@@ -48,6 +48,7 @@ user\
 2. Run docker compose
 ### ```docker compose up```
 **OR**
+
 2. You can manually run individual services using
 ### ```npm start```
 
@@ -69,6 +70,10 @@ get different results for same amounts. Which is a bad UX.
 - Low amount of time given, led to lack of tests
 - Requirement for **AED** currencies being always on top of the list, - **is not doable**,
 because there is **no AED rates provided** by freecurrency.com. I've used EUR instead of it.
+- App calculates any rate, using USD as a base rate. Due to higher precision in storage (6 digits), 
+it allows us to store less data, and still have precise (4 digits) rates on UI. This also allows us
+to cache data once for all rates, instead of requesting it each time (and potentially hitting limits).
+BUT one might say, that rates are less precise, that directly from external api.
 
 ### Additional requirements 
 - All rates should be rounded for four decimal places. 
