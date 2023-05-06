@@ -59,6 +59,7 @@ user\
 - better error handling (network errors, offline app usage, toasts)
 - databases auto-clean up
 - standalone auth service, for proper auth token refresh, reaction for password change
+- proper unique design (i.e. company logo, favicon, ui-kit)
 
 ### Limitations
 - All amounts should be rounded for 0.05 steps (floored) - this one **cannot be done
