@@ -4,25 +4,25 @@ import {useCallback, useRef, useState} from "react";
 export default function useLoginForm() {
     const passwordRef = useRef(null);
     const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('')
-    const [loginError, setLoginError] = useState(false)
-    const [passwordError, setPasswordError] = useState(false)
+    const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
     const [formError, setFormError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = useCallback(async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        setLoginError(false)
-        setPasswordError(false)
+        setLoginError(false);
+        setPasswordError(false);
         setFormError('');
 
         if (login === '') {
-            setLoginError(true)
+            setLoginError(true);
             setFormError('Login is required');
         }
         if (password === '') {
-            setPasswordError(true)
+            setPasswordError(true);
             setFormError('Password is required');
         }
 

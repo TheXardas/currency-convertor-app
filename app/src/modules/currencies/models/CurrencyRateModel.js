@@ -50,7 +50,7 @@ class CurrencyRateModel extends Model {
     static async prepareRates(rates, date, baseCurrency, currenciesByCode) {
         const newCurrencyRates = [];
         for (const [code, rate] of Object.entries(rates)) {
-            const currencyInDb = currenciesByCode[code]
+            const currencyInDb = currenciesByCode[code];
             if (!currencyInDb) {
                 console.error('Tried to save rate for unknown currency! Run fetch?', code);
                 continue;
@@ -129,14 +129,14 @@ CurrencyModel.hasMany(CurrencyRateModel, {
         allowNull: false,
     },
     as: 'BaseCurrencyRates',
-})
+});
 CurrencyRateModel.belongsTo(CurrencyModel, {
     foreignKey: {
         name: 'base_currency_id',
         allowNull: false,
     },
     as: 'BaseCurrency',
-})
+});
 
 CurrencyModel.hasMany(CurrencyRateModel, {
     onDelete: 'CASCADE',
@@ -145,14 +145,14 @@ CurrencyModel.hasMany(CurrencyRateModel, {
         allowNull: false,
     },
     as: 'TargetCurrencyRates',
-})
+});
 CurrencyRateModel.belongsTo(CurrencyModel, {
     foreignKey: {
         name: 'target_currency_id',
         allowNull: false,
     },
     as: 'TargetCurrency',
-})
+});
 
 
 module.exports = CurrencyRateModel;

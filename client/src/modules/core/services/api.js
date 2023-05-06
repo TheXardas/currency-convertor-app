@@ -43,18 +43,18 @@ class ApiFetcher {
 
     setAuthToken = (token) => {
         this.token = token;
-    }
+    };
 
     get = (url, options) => {
         return this.makeRequest(url, { ...options, method: 'GET' })
-    }
+    };
 
     post = (url, body, options) => {
         return this.makeRequest(url, {json: body, ...options, method: 'POST'})
-    }
+    };
 
     makeRequest = async (url, options) => {
-        const response = await this.fetcher(url, options)
+        const response = await this.fetcher(url, options);
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.statusText}`);
         }

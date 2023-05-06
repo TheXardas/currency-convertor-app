@@ -2,7 +2,7 @@ import {Skeleton, TextField} from "@mui/material";
 import {useCallback} from "react";
 
 export default function Amount({ label, value, onChange, isLoaded }) {
-    const handleChange = useCallback(e => onChange(e.target.value), [onChange])
+    const handleChange = useCallback(e => onChange(e.target.value), [onChange]);
 
     if (!isLoaded) {
         return <Skeleton variant="rounded" width={150} height={56} />

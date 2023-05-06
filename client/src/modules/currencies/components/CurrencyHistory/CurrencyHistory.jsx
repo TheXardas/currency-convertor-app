@@ -10,7 +10,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }) {
     const [historyData, setHistoryData] = useState(null);
-    const [timeframe, setTimeframe] = useState(HISTORY_TIMEFRAMES.MONTH)
+    const [timeframe, setTimeframe] = useState(HISTORY_TIMEFRAMES.MONTH);
 
     useEffect(() => {
         currencyService.history(timeframe, baseCurrencyCode, targetCurrencyCode).then(setHistoryData);
@@ -20,10 +20,10 @@ export default function CurrencyHistory({ baseCurrencyCode, targetCurrencyCode }
 
     const handleChange = useCallback((event, value) => {
         setTimeframe(value);
-    }, [setTimeframe])
+    }, [setTimeframe]);
 
     const theme = useTheme();
-    const desktop = useMediaQuery(theme.breakpoints.up('md'), {noSsr: true})
+    const desktop = useMediaQuery(theme.breakpoints.up('md'), {noSsr: true});
 
     return (
         <Card>

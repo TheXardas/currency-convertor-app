@@ -26,7 +26,7 @@ class CurrencyModel extends Model {
     static async findAllByCurrencyCodes(codes) {
         const currencies = await CurrencyModel.findAll({ where: { code: codes }});
         return currencies.reduce((result, currency) => {
-            result[currency.code] = currency
+            result[currency.code] = currency;
             return result;
         }, {})
     }

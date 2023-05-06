@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const tokenKey = require('../constants/tokenKey');
 const { getUser, getUserByAuth } = require('../services/userService');
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
 
 exports.login = asyncHandler(async function(request, response, next) {
     if (!request.body.login || !request.body.password) {
@@ -18,7 +18,7 @@ exports.login = asyncHandler(async function(request, response, next) {
     }
 
     if (!await user.validPassword(request.body.password)) {
-        response.status(400).json({error: 'Password is incorrect'})
+        response.status(400).json({error: 'Password is incorrect'});
         return;
     }
 
@@ -28,12 +28,12 @@ exports.login = asyncHandler(async function(request, response, next) {
         login: user.login
     };
     response.json({user, token: jwt.sign(token, tokenKey)});
-})
+});
 
 exports.currentUser = asyncHandler(async function(request, response, next) {
     if (!request.user || !request.user.login) {
         response.status(401);
-        response.json({error: 'Not authorized'})
+        response.json({error: 'Not authorized'});
         return;
     }
 
@@ -41,9 +41,9 @@ exports.currentUser = asyncHandler(async function(request, response, next) {
 
     if (!user) {
         response.status(404);
-        response.json({error: 'User not found'})
+        response.json({error: 'User not found'});
         return;
     }
 
     response.json({user});
-})
+});

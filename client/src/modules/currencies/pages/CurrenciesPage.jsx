@@ -17,9 +17,9 @@ export default function CurrenciesPage() {
     const [targetCurrencyCode, setTargetCurrencyCode] = useState('EUR');
 
     useEffect(() => {
-        currencyService.currencies().then(setCurrencies)
+        currencyService.currencies().then(setCurrencies);
         currencyService.latest().then(setLatestRates)
-    }, [baseCurrencyCode])
+    }, [baseCurrencyCode]);
 
     if (!isLoggedIn) {
         return <Navigate to="/login"/>;

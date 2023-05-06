@@ -28,7 +28,7 @@ export default function CurrencySelect({ label, value, onChange, options, ...res
             label={label}
             placeholder={label}
         />
-    ), [label])
+    ), [label]);
 
     const filterOptions = createFilterOptions({
         matchFrom: 'any',

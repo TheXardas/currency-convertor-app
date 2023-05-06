@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config();
 
 const sequelize = require('../src/core/db');
 const UserModel = require('../src/modules/auth/models/UserModel');
@@ -18,7 +18,7 @@ const bcrypt = require("bcrypt");
             password: await bcrypt.hash('12345', await bcrypt.genSalt(8)),
         }], {
             ignoreDuplicates: true,
-        })
+        });
         console.log('All Done! Models synchronized');
     } catch (e) {
         console.log('FAIL: migration has shown following error:');

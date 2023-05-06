@@ -22,7 +22,7 @@ class AuthService {
             });
         }
         this.saveToken(localStorage.getItem(JWT_TOKEN_KEY) || '');
-    }
+    };
 
     saveToken(token) {
         localStorage.setItem(JWT_TOKEN_KEY, token);
@@ -50,7 +50,7 @@ class AuthService {
 
     logout = () => {
         this.saveToken('');
-    }
+    };
 
     async fetchCurrentUser() {
         return api.get('auth/current-user');

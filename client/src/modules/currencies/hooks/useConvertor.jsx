@@ -18,32 +18,32 @@ export default function useConvertor(rate) {
     const [toAmount, setToAmount] = useState(0);
 
     const fixFromAmount = useCallback((newAmount) => {
-        const fixed = fixAmount(newAmount)
+        const fixed = fixAmount(newAmount);
         setFromAmount(fixed);
         setToAmount(roundAmount(fixed * rate))
-    }, [rate, setFromAmount, setToAmount])
+    }, [rate, setFromAmount, setToAmount]);
 
     const fixToAmount = useCallback((newAmount) => {
-        const fixed = fixAmount(newAmount)
-        setToAmount(fixed)
+        const fixed = fixAmount(newAmount);
+        setToAmount(fixed);
         setFromAmount(roundAmount(fixed / rate))
-    }, [rate, setFromAmount, setToAmount])
+    }, [rate, setFromAmount, setToAmount]);
 
     const handleFromAmountChange = useCallback((newAmount) => {
-        setFromAmount(newAmount)
-        clearTimeout(updateTimer)
-        updateTimer = setTimeout(() => fixFromAmount(newAmount), FIX_AMOUNT_TIMEOUT)
+        setFromAmount(newAmount);
+        clearTimeout(updateTimer);
+        updateTimer = setTimeout(() => fixFromAmount(newAmount), FIX_AMOUNT_TIMEOUT);
         if (isNaN(Number(newAmount)) || !newAmount) return;
         setToAmount(roundAmount(newAmount * rate))
-    }, [rate, setToAmount, setFromAmount, fixFromAmount])
+    }, [rate, setToAmount, setFromAmount, fixFromAmount]);
 
     const handleTargetAmountChange = useCallback((newAmount) => {
-        setToAmount(newAmount)
-        clearTimeout(updateTimer)
-        updateTimer = setTimeout(() => fixToAmount(newAmount), FIX_AMOUNT_TIMEOUT)
+        setToAmount(newAmount);
+        clearTimeout(updateTimer);
+        updateTimer = setTimeout(() => fixToAmount(newAmount), FIX_AMOUNT_TIMEOUT);
         if (isNaN(Number(newAmount)) || !newAmount) return;
         setFromAmount(roundAmount(newAmount / rate))
-    }, [rate, setToAmount, setFromAmount, fixToAmount])
+    }, [rate, setToAmount, setFromAmount, fixToAmount]);
     return {
         handleFromAmountChange,
         handleTargetAmountChange,

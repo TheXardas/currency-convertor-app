@@ -6,7 +6,7 @@ export default function fixAmount(amount) {
         .toString()
         .replace(/,/g, '.')
         .replace(/[\D[^.]]/g, '')
-    )
+    );
     if (isNaN(formatted) || !formatted) formatted = DEFAULT_AMOUNT;
     return roundAmount(formatted);
 }

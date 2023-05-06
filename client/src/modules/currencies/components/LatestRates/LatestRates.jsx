@@ -9,7 +9,7 @@ import useLatestRates from "../../hooks/useLatestRates";
 import CurrencyWithFlag from "../CurrencyWithFlag";
 
 export default function LatestRates({ baseCurrencyCode, rates }) {
-    const latestRates = useLatestRates(rates, baseCurrencyCode)
+    const latestRates = useLatestRates(rates, baseCurrencyCode);
 
     return (
         <Card sx={{ height: '100%'}}>

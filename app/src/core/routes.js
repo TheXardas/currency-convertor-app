@@ -13,7 +13,7 @@ function attachRoutes(app) {
         }
     });
     app.use(function (err, req, res, next) {
-        console.error(err.message, err.stack)
+        console.error(err.message, err.stack);
         res.status(500).json({ code: 500, error: 'Server Error' });
     })
 }

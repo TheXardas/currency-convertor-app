@@ -15,7 +15,7 @@ export function AuthContextProvider({ children }) {
             user: authService.getCurrentUser(),
             isLoggedIn: authService.isLoggedIn(),
         })
-    }, [setContextValue])
+    }, [setContextValue]);
 
     useEffect(() => {
         // We use event handler here, to ensure rapid react update of context and app state, when localStorage changes.
@@ -25,7 +25,7 @@ export function AuthContextProvider({ children }) {
         return () => {
             window.removeEventListener('loginChange', onLoginChange);
         }
-    }, [onLoginChange])
+    }, [onLoginChange]);
 
     return (
         <AuthContext.Provider value={contextValue}>
