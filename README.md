@@ -13,7 +13,7 @@ The result is an application, consisting of **Node.js, Express.js, PostgresQL, R
 and **React** client app with **Material UI** library.
 
 All services are **containerized** with optimized image size,
-meaning they can be run with **Docker** with ease, and images with take minimal space.\
+meaning they can be run with **Docker** with ease, and images will take minimal space.\
 However, for production use, orchestration services (like kubernetes) should be used.
 
 Architecture follows **Domain Drive Design**, as all code is separated by domain model.
