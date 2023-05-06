@@ -19,6 +19,8 @@ However, for production use, orchestration services (like kubernetes) should be 
 Architecture follows **Domain Drive Design**, as all code is separated by domain model.
 
 Backend service makes use of **MVC** approach, while UI is **MVVM** with react hooks.
+State management was not used on UI, because there is only one page to show.\
+If app is to grow, mobx or redux should be introduced.
 
 All services are made with **Standard JS (not TypeScript) with functional approach**
 as per requirements by evaluator. I would personally use TypeScript instead.
