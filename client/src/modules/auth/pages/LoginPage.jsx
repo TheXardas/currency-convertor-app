@@ -3,7 +3,7 @@ import {Grid} from "@mui/material";
 import LoginForm from "../components/LoginForm";
 import {Navigate} from "react-router-dom";
 import {useAuth} from "../context/AuthContext";
-import BackDrop from '../components/BackDrop';
+import BackDrop from '../../core/components/BackDrop';
 
 export default function LoginPage() {
     const {isLoggedIn} = useAuth();
